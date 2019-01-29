@@ -1,0 +1,134 @@
+<div>
+  <div>
+    <form class="form-horizontal" [formGroup]="addProjectForm" (ngSubmit)="OnFormSubmit()">
+      <div class="form-group">
+        <div class="row" style="margin-bottom:10px">
+          <label class="control-label col-sm-2 lbl-custom">Project:</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" name="pname" id="pname" placeholder="Enter Project Name"
+              formControlName="ProjectName">
+          </div>
+          <div *ngIf="formSubmitted && f.ProjectName.errors" class="col-sm-3 invalid-feedback">Project Name is required</div>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-1">
+            <input type="checkbox" style="margin-top:10px" name="setdate" id="setdate" formControlName="SetDate"
+              (change)="setDateChanged($event)">
+          </div>
+          <label class="col-sm-2 control-label lbl-custom">Set start date & end date</label>
+          <div class="col-sm-2">
+            <input type="date" class="form-control" name="sdate" id="sdate" formControlName="StartDate">
+          </div>
+          <div class="col-sm-2">
+            <input type="date" class="form-control" name="edate" id="edate" formControlName="EndDate">
+          </div>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+          <label class="control-label col-sm-2 lbl-custom">Priority:</label>
+          <div class="col-sm-7">
+            <input type="range" class="form-control" min="0" max="30" id="priority" formControlName="Priority">
+          </div>
+          <div *ngIf="formSubmitted && f.Priority.errors" class="col-sm-3 invalid-feedback">Priority is required</div>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+          <label class="control-label col-sm-2 lbl-custom">Manager:</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="mngr" formControlName="ManagerName">
+          </div>
+          <div class="col-sm-1">
+            <input type="button" value="Search" class="form-control" id="mngr" class="btn btn-default" (click)="OpenModal()">
+          </div>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-3">
+            <input type="submit" value={{btnText}} class="btn form-control btn-custom">
+          </div>
+          <div class="col-sm-3">
+            <input type="button" value="Reset" class="btn form-control btn-custom" (click)="OnReset()">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="form-horizontal">
+    <div class="form-group">
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Search" id="listSearch" [(ngModel)]="searchParam">
+      </div>
+      <div class="col-sm-1" style="text-align: right; padding-top: 5px">Sort:</div>
+      <div class="col-sm-2">
+        <input type="button" value="Start Date" class="btn-default form-control" style="font-size:smaller" (click)="SetSortParam('StartDate')">
+      </div>
+      <div class="col-sm-2">
+        <input type="button" value="End Date" class="btn-default form-control" style="font-size:smaller" (click)="SetSortParam('EndDate')">
+      </div>
+      <div class="col-sm-2">
+        <input type="button" value="Priority" class="btn-default  form-control" style="font-size:smaller" (click)="SetSortParam('Priority')">
+      </div>
+      <div class="col-sm-2">
+        <input type="button" value="Completed" class="btn-default  form-control" style="font-size:smaller" (click)="SetSortParam('CompletedTasks')">
+      </div>
+    </div>
+
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let project of projects | filter : searchParam | sort : path : order">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <div class="col-sm-8" style="background-color: #eee; border-radius: 10px">
+            <table>
+              <tr style="margin-bottom:5px">
+                <td class="col-sm-2" style="font-size:smaller">Project:</td>
+                <td class="col-sm-4">
+                  <input type="text" class="form-control" name="fname" [disabled]="true" id="fname" value="{{project.Project}}">
+                </td>
+              </tr>
+              <br>
+              <tr>
+                <td class="col-sm-1" style="font-size:smaller">No of Tasks:</td>
+                <td class="col-sm-4">
+                  <input type="text" class="form-control" name="tc" [disabled]="true" id="tc" value="{{project.TaskCount}}">
+                </td>
+                <td class="col-sm-1" style="font-size:smaller">Completed Tasks:</td>
+                <td class="col-sm-4">
+                  <input type="text" class="form-control" name="ct" [disabled]="true" id="ct" value="{{project.CompletedTasks}}">
+                </td>
+              </tr>
+              <br>
+              <tr>
+                <td class="col-sm-1" style="font-size:smaller">StartDate:</td>
+                <td class="col-sm-4">
+                  <input type="text" class="form-control" name="sd" [disabled]="true" id="sd" value="{{project.StartDate}}">
+                </td>
+                <td class="col-sm-1" style="font-size:smaller">EndDate:</td>
+                <td class="col-sm-4">
+                  <input type="text" class="form-control" name="ed" [disabled]="true" id="ed" value="{{project.EndDate}}">
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-sm-2">
+            <div style="font-size:smaller">Priority:</div>
+            <br>
+            <div>
+              <input type="text" class="form-control" name="pt" [disabled]="true" id="pt" value="{{project.Priority}}">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div>
+              <input type="button" value="Edit" class="btn form-control btn-custom" (click)="OnEdit(project)">
+            </div>
+            <div>
+              <br>
+            </div>
+            <div>
+              <input type="button" value="Suspend" class="btn form-control btn-custom" (click)="OnSuspend(project)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
