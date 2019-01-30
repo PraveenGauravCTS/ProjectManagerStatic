@@ -83,9 +83,9 @@ export class CommonService {
     return this.http.get<any>(url);
   }
 
-  EndTask(model: TaskModel): Observable<object> {
-    let url = this.baseUrl + 'EndTask';
-    return this.http.put(url, model);
+  EndTask(model: TaskModel): Observable<any> {
+    let url = this.baseUrl + 'tasks/delete/id/' +model.Task_ID;
+    return this.http.delete(url);
   }
 
   GetTaskById(Id: number): Observable<any> {

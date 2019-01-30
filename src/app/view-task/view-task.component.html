@@ -48,10 +48,10 @@
             <td>{{task.StartDate}}</td>
             <td>{{task.EndDate}}</td>
             <td>
-              <button class="button" [disabled]="!task.IsEditable" (click)=EditTask(task)>Edit</button>
+              <button class="button"  (click)=EditTask(task)>Edit</button>
             </td>
             <td>
-              <button (click)=EndTask(task) [disabled]="!task.IsEditable" class="button">EndTask</button>
+              <button (click)=EndTask(task)  class="button">EndTask</button>
             </td>
           </tr>
         </table>

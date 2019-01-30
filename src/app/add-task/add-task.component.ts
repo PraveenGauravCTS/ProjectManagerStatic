@@ -67,7 +67,7 @@ export class AddTaskComponent implements OnInit {
     this.isUpdating = true;
     this.btnText = 'Edit Task';
     this.service.GetTaskById(this.taskId).subscribe(o =>
-      this.PopulateDetails(o)
+      this.PopulateDetails(o.response)
     );
   }
 
