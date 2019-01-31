@@ -165,7 +165,7 @@ export class AddProjectComponent implements OnInit {
       let managerName: string;
       this.service.GetUserById(model.UserId).subscribe(
         o => this.addProjectForm.patchValue({
-          ManagerName: (o.FirstName + " " + o.LastName)
+          ManagerName: (o.response.FirstName + " " + o.response.LastName)
         }));
     }
     this.addProjectForm.patchValue({
